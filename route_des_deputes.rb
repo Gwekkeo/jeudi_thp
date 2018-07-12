@@ -66,19 +66,37 @@ def mailDepute(urlDuDepute)
 	return mail
 end
 
+def startRAPIDE
+	tabMailDepute = []
+	monHash = {}
+	tabLienDepute = lienDeputes("http://www2.assemblee-nationale.fr/deputes/liste/alphabetique")
+	10.times do |i|
+		print "#{i+1}/10 : "
+		tabMailDepute << mailDepute(tabLienDepute[i])
+	end
+	tabNomPrenom1 = nomDeputes("http://www2.assemblee-nationale.fr/deputes/liste/alphabetique")
+	tabNomPrenom2 = nomPrenom(tabNomPrenom1)
+	10.times do |i|
+		monHash[tabNomPrenom2[i]] = tabMailDepute[i]
+	end
+	puts monHash
+end
+
+
 # LET'S GO?
 def start
 	# tabLienDepute = []
 	# tabNomPrenom = []
 	tabMailDepute = []
 	monHash = {}
+	puts "Il y a environ 576 députés dont il faut charger les informations [soyez patient ;)]"
 
 	tabLienDepute = lienDeputes("http://www2.assemblee-nationale.fr/deputes/liste/alphabetique")
-	tabLienDepute.each do |link|
-		tabMailDepute = mailDepute(link)
-		# tabMailDepute = ["Lea","Leo","Lola","Lilou","Lili","Lyndsay","Linda","Lisa"]
+	# tabLienDepute.each do |link|
+	tabLienDepute.length.times do |i|
+		print "#{i+1}/#{tabLienDepute.length} : "
+		tabMailDepute << mailDepute(tabLienDepute[i])
 	end
-	puts tabMailDepute.length
 
 	tabNomPrenom1 = nomDeputes("http://www2.assemblee-nationale.fr/deputes/liste/alphabetique")
 	tabNomPrenom2 = nomPrenom(tabNomPrenom1)
@@ -86,27 +104,22 @@ def start
 
 	# ON MET TOUTES SES INFOS DANS UN HASH
 
-	20.times do |i|
-		monHash[tabNomPrenom2[i]]=tabMailDepute[i]
+	tabLienDepute.each do |mail|
+		# puts tabMailDepute[i]
+		monHash[tabNomPrenom2[i]] = mail
 	end
 
 	puts monHash
-
-
 end
 
 
-start
-
-
-# puts lienDeputes("http://www2.assemblee-nationale.fr/deputes/liste/alphabetique")
-# namesCollee = nomDeputes("http://www2.assemblee-nationale.fr/deputes/liste/alphabetique")
-# print tabNomDep = nomPrenom(namesCollee), "\n"
-# puts mailDepute("http://www2.assemblee-nationale.fr/deputes/fiche/OMC_PA718768")
-
-
-
-
-
-
+# start
 # rvm use ruby-2.5.1
+
+# SI LE GROS TEST RATE A CAUSE DU TEMPS MIS A CHARGER LES INFOS
+# DECOMMENTER LA LIGNE SUIVANTE POUR TESTER SUR 10 DEPUTES
+startRAPIDE
+
+
+
+
