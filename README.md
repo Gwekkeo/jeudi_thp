@@ -1,5 +1,5 @@
 Projet en Pair-Programming:
-	CASSAND Gwendoline
+	C. Gwendoline
 
 -route_de_la_mairie.rb
 
